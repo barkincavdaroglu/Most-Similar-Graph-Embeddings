@@ -1,0 +1,29 @@
+4
+O: a 0
+O: b 1
+O: c 2
+O: d 3
+E: a b 0.55
+E: a c 0.34
+E: b d 0.65
+E: b c 0.33
+
+4
+O: b 0
+O: a 1
+O: c 2
+O: d 3
+E: a b 0.58
+E: a c 0.29
+E: d d 0.58
+E: b c 0.19
+
+4
+O: b 0
+O: c 1
+O: a 2
+O: d 3
+E: a b 0.71
+E: a c 0.23
+E: d d 0.44
+E: b c 0.25
