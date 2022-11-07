@@ -4,13 +4,13 @@ from numpy.random import seed
 
 # Accepts a networkx graph and returns a its embedding using Node2Vec
 def embed_graphs(graph, embedding_filename="", embedding_model_filename="", edges_embedding_filename="", embedding_dir="graph_embed_data/", save_embed_files=False):
-    EMBEDDING_FILENAME = embedding_dir + embedding_filename + ".emb" # "graph_embed_data/embeddings.emb"
-    EMBEDDING_MODEL_FILENAME = embedding_dir + embedding_model_filename + ".model" # "graph_embed_data/embeddings.model"
-    EDGES_EMBEDDING_FILENAME = embedding_dir + edges_embedding_filename + ".emb" # "graph_embed_data/edges.emb"
+    EMBEDDING_FILENAME = embedding_dir + embedding_filename + ".emb" 
+    EMBEDDING_MODEL_FILENAME = embedding_dir + embedding_model_filename + ".model" 
+    EDGES_EMBEDDING_FILENAME = embedding_dir + edges_embedding_filename + ".emb" 
 
     # Precompute probabilities and generate walks - **ON WINDOWS ONLY WORKS WITH workers=1**
     node2vec = Node2Vec(
-        graph, dimensions=32, walk_length=20, num_walks=80, workers=1, seed=seed(1)
+        graph, dimensions=32, q=0.1, walk_length=20, num_walks=80, workers=1, seed=seed(1)
     ) 
 
     # Embed nodes
