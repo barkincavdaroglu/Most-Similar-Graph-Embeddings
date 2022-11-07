@@ -1,4 +1,4 @@
-from load_data import load_all_timelines, load_timeline, load_graph
+from load_data import load_all_timelines
 import collections   
 import numpy as np
 from n2vec import embed_graphs
@@ -13,8 +13,8 @@ def find_most_similar_timeline(filenames):
     current_snapshot_graph = current_timeline.get_nx_graph_at_time(0)
     current_snapshot_model = embed_graphs(current_snapshot_graph)
 
-    curr_min_euc, curr_min_pointer_euc = float('INF'), 0
-    curr_max_cos, curr_max_pointer_cos = float('-INF'), 0
+    curr_min_euc, curr_min_pointer_euc = float('inf'), 0
+    curr_max_cos, curr_max_pointer_cos = float('-inf'), 0
 
     model_embeds_of_timeline = collections.defaultdict(lambda: [])
 
@@ -25,8 +25,13 @@ def find_most_similar_timeline(filenames):
             edge_embedding_filename = "time_" + str(key) + "_" + str(i) + "_edges_embedding"
             model = embed_graphs(timeline.get_nx_graph_at_time(i), embedding_filename=embedding_filename, embedding_model_filename=embedding_model_filename, edges_embedding_filename=edge_embedding_filename)
             model_embeds_of_timeline[key].append(model)
-        
+
         for i in range(1, timeline.get_snapshot_count()):
+            local_euc = 0
+            local_cos = 0
+            local_euc_1, local_euc_2 = 0, 0
+            local_cos_1, local_cos_2 = 0, 0
+
             curr_prev_snapshot = model_embeds_of_timeline[key][i]
             prev_prev_snapshot = model_embeds_of_timeline[key][i - 1]
 
@@ -44,20 +49,31 @@ def find_most_similar_timeline(filenames):
                 dist2_euc = np.linalg.norm(vec1 - vec3)
                 dist2_cos = np.dot(vec1, vec3)/(norm(vec1) * norm(vec3))
 
-                if dist1_euc + dist2_euc < curr_min_euc:
-                    curr_min_euc = dist1_euc + dist2_euc
-                    if dist1_euc < dist2_euc:
-                        curr_min_pointer_euc = (key, i)
-                    else:
-                        curr_min_pointer_euc = (key, i - 1)
+                local_euc += (dist1_euc + dist2_euc)
+                local_cos += (dist1_cos + dist2_cos)
 
-                if dist1_cos + dist2_cos > curr_max_cos:
-                    curr_max_cos = dist1_cos + dist2_cos
-                    if dist1_cos > dist2_cos:
-                        curr_max_pointer_cos = (key, i)
-                    else:
-                        curr_max_pointer_cos = (key, i - 1)
-                        
+                local_euc_1 += dist1_euc
+                local_euc_2 += dist2_euc
+
+                local_cos_1 += dist1_cos
+                local_cos_2 += dist2_cos
+            
+            if local_euc < curr_min_euc:
+                curr_min_euc = local_euc
+                #print("euc: ", i, local_euc_1, local_euc_2)
+                if local_euc_1 < local_cos_2:
+                    curr_min_pointer_euc = (key, i)
+                else:
+                    curr_min_pointer_euc = (key, i - 1)
+
+            if local_cos > curr_max_cos:
+                curr_max_cos = local_cos
+                #print("cos: ", i, local_cos_1, local_cos_2)
+                if local_cos_1 > local_cos_2:
+                    curr_max_pointer_cos = (key, i)
+                else:
+                    curr_max_pointer_cos = (key, i - 1)
+    
     return curr_min_pointer_euc, curr_max_pointer_cos
 
     

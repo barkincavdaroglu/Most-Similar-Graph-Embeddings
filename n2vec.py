@@ -10,7 +10,7 @@ def embed_graphs(graph, embedding_filename="", embedding_model_filename="", edge
 
     # Precompute probabilities and generate walks - **ON WINDOWS ONLY WORKS WITH workers=1**
     node2vec = Node2Vec(
-        graph, dimensions=32, q=0.1, walk_length=20, num_walks=80, workers=1, seed=seed(1)
+        graph, dimensions=32, q=0.1, walk_length=30, num_walks=120, workers=1, seed=seed(1)
     ) 
 
     # Embed nodes

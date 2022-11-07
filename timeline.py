@@ -30,6 +30,9 @@ class Timeline(object):
     def get_matching_node(self, time, node_ord):
         return self.node_to_order[time][self.order_to_node[time][node_ord]]
 
+    def get_matching_node_data(self, time, node_ord):
+        return self.order_to_node[time][node_ord]
+
     def get_all(self):
         for time in self.nx_graphs.keys():
             print(self.nx_graphs[time].edges(data=True))
