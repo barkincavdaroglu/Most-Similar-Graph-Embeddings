@@ -59,7 +59,7 @@ def load_graph(graphs, timeline):
         
         for edge in graph[:-1]:
             v1, v2, weight = edge
-            G.add_edge(v1, v2, weight=float(weight))
+            G.add_edge(v1, v2, weight=(float(weight) * 100) ** 2)
 
             adj_matrix[v1][v2] = weight
             adj_matrix[v2][v1] = weight
