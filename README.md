@@ -27,3 +27,5 @@ E: a c 0.29
 E: b d 0.58
 E: b c 0.19
 ```
+
+This graph is the next snapshot of the graph that is most similar to our input graph.
