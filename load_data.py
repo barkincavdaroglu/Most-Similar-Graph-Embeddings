@@ -3,23 +3,33 @@ import networkx as nx
 from karateclub import DeepWalk, Walklets
 from timeline import Timeline
 
-def load_all_timelines(filenames):
+def load_all_timelines(filenames, mode):
     timelines = {}
 
-    for i, filename in enumerate(filenames):
+    if mode == "file":
+        for i, filename in enumerate(filenames):
+            timeline = Timeline()
+            timeline_g = load_timeline(filename, timeline, mode)
+            _ = load_graph(timeline_g, timeline)
+            timelines[i] = timeline
+    else:
         timeline = Timeline()
-        timeline_g = load_timeline(filename, timeline)
+        timeline_g = load_timeline(filenames, timeline, mode)
         _ = load_graph(timeline_g, timeline)
-        timelines[i] = timeline
+        timelines[0] = timeline
 
     return timelines
 
-def load_timeline(filename, timeline):
-    temp = open(filename,'r').read().splitlines()
+def load_timeline(graph_content, timeline, mode):
+    if mode == "file":
+        data = open(graph_content,'r').read().splitlines()
+    else:
+        data = graph_content.split("\n")
+    
     graphs, curr_graph, node_to_order, order_to_node, size  = [], [], {}, {}, 0
     time = 0
 
-    for line in temp:
+    for line in data:
         if len(line) > 1:
             line_split = line.split()
             if line_split[0] == "O:":

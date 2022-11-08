@@ -4,10 +4,10 @@ import numpy as np
 from n2vec import embed_graphs
 from numpy.linalg import norm
 
-def find_most_similar_timeline(filenames):
-    timelines = load_all_timelines(filenames) 
+def find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, mode):
+    timelines = load_all_timelines(prev_timeline_filenames, "file") 
     
-    current_timeline = load_all_timelines(["sample_data/0.txt"])
+    current_timeline = load_all_timelines(curr_timeline_filename, mode)
     current_timeline = current_timeline[0]
     current_snapshot_graph = current_timeline.get_nx_graph_at_time(0)
     current_snapshot_model = embed_graphs(current_snapshot_graph)
@@ -71,13 +71,14 @@ def find_most_similar_timeline(filenames):
                 else:
                     curr_max_pointer_cos = (key, i - 1)
     
-    return curr_min_pointer_euc, curr_max_pointer_cos
+    return curr_min_pointer_euc#, curr_max_pointer_cos
 
-filenames = ["sample_data/1.txt", "sample_data/2.txt"]
+prev_timeline_filenames = ["sample_data/1.txt", "sample_data/2.txt"]
+curr_timeline_filename = ["sample_data/0.txt"]
 
-print(find_most_similar_timeline(filenames))
-print(find_most_similar_timeline(filenames))
-print(find_most_similar_timeline(filenames))
-print(find_most_similar_timeline(filenames))
-print(find_most_similar_timeline(filenames))
-print(find_most_similar_timeline(filenames))
+"""print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))
+print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))
+print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))
+print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))
+print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))
+print(find_most_similar_timeline(prev_timeline_filenames, curr_timeline_filename, "string"))"""
