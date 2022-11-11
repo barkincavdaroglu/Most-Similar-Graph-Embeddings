@@ -7,3 +7,13 @@ E: a b 0.51
 E: a c 0.39
 E: b d 0.6
 E: b c 0.4
+
+4
+O: b 0
+O: a 1
+O: c 2
+O: d 3
+E: a b 0.6
+E: a c 0.33
+E: b d 0.65
+E: b c 0.11
