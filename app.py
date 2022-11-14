@@ -20,7 +20,7 @@ def get_next_state():
 
     for line in data:
         if len(line) >= 1 and time == snapshot_key + 1:
-            graph_to_return += line + "\n"
+            graph_to_return += line + "-"
 
         elif len(line) == 0:  # another graph
             if time == snapshot_key + 1:
