@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-from find_most_similar import find_most_similar_timeline
+from find_most_similar import MostSimilarTimeline
 
 app = Flask(__name__)
 
@@ -9,9 +9,12 @@ app = Flask(__name__)
 def get_next_state():
     prev_timeline_filenames = ["sample_data/1.txt", "sample_data/2.txt"]
     graph_snapshots = request.get_json()["snapshots"]
-    most_similar_timeline, snapshot_key = find_most_similar_timeline(
+
+    similar_timeline_finder = MostSimilarTimeline(
         prev_timeline_filenames, graph_snapshots, "string"
     )
+
+    most_similar_timeline, snapshot_key = similar_timeline_finder.find()
 
     data = open(prev_timeline_filenames[most_similar_timeline], "r").read().splitlines()
 
