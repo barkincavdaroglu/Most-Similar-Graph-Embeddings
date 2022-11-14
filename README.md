@@ -1,6 +1,9 @@
 # Most-Similar-Graph-Embeddings
 
+Explanation of this program can be found [here]()
+
 In the main directory, run
+
 ```
 flask run
 ```
@@ -16,6 +19,7 @@ curl --location --request POST '{YOUR_PORT}/get_next_state' \
 ```
 
 where {YOUR_PORT} is the URL that app runs on. Using the test data, the output of this call will be a JSON with key "snapshot" and value:
+
 ```
 4
 O: b 0
